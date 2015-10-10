@@ -1,0 +1,23 @@
+{
+  "name": "node-red-contrib-interval",
+  "version": "0.0.0",
+  "description": "A simple node-red node that sends a message at regular intervals",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "github.com/ArnaudRinquin/node-red-contrib-interval"
+  },
+  "keywords": [
+    "node-red"
+  ],
+  "author": "Arnaud Rinquin",
+  "license": "MIT",
+  "node-red": {
+    "nodes": {
+      "interval": "interval/interval.js"
+    }
+  },
+  "dependencies": {
+    "moment": "^2.10.6"
+  }
+}
