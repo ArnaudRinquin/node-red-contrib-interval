@@ -14,6 +14,9 @@
       onstart: {
         value: false
       },
+      do_enable: {
+          value: true
+      },
       msg: {
         value: 'ping',
         required: true
@@ -30,7 +33,7 @@
         required: true
       }
     },
-    inputs: 0,
+    inputs: 1,
     outputs: 1,
     icon: "timer.png",
     label: function() {
@@ -43,6 +46,11 @@
   <div class="form-row">
     <label for="node-input-name"><i class="icon-tag"></i> Name</label>
     <input type="text" id="node-input-name" placeholder="Name">
+  </div>
+
+  <div class="form-row">
+    <label for="node-input-do_enable">Enabled</label>
+    <input type="checkbox" id="node-input-do_enable">
   </div>
 
   <div class="form-row">
