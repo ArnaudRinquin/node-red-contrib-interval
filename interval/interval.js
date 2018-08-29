@@ -50,6 +50,8 @@ module.exports = function(RED) {
         intervalHandle = setInterval(this.trigger, this.interval);
     }
 
+    msg.payload = msg.payload.toLowerCase();
+
     this.on("input", function (msg) {
         if(msg.payload === "enable" ||msg.payload === "enabled"){
           if (!config.do_enable){

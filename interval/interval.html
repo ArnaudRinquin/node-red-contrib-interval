@@ -94,4 +94,26 @@
 
 <script type="text/x-red" data-help-name="interval">
   <p>A simple node that sends a message at specified interval</p>
+<h3>Inputs</h3>
+<dl class="message-properties">
+    <dt>payload
+        <span class="property-type">string</span>
+    </dt>
+    <dd> the command for the node. Currently supported values are "enabled" and "disabled".</dd>
+</dl>
+
+<h3>Outputs</h3>
+<dl class="message-properties">
+    <dt>payload <span class="property-type">string</span></dt>
+    <dd>Payload as configured - repeating at specified intervals.</dd>
+</dl>
+
+<h3>Details</h3>
+<p>During runtime, the node (interval) can be enabled or disabled by sending message to input with proper value on <code>msg.payload</code>.
+This setting overrides the value of <code>Enabled</code> checkbox setting on edit panel.
+</p>
+
 </script>
+
+
+
