@@ -28,7 +28,7 @@ module.exports = function(RED) {
     var intervalHandle;
 
     RED.nodes.createNode(this, config);
-
+    var node = this;
     this.interval = moment.duration(parseInt(config.interval), config.unit).asMilliseconds();
 
     this.trigger = function trigger() {
@@ -46,11 +46,28 @@ module.exports = function(RED) {
       setTimeout(this.trigger, 1000);
     }
 
-    intervalHandle = setInterval(this.trigger, this.interval);
+    if(config.do_enable) {
+        intervalHandle = setInterval(this.trigger, this.interval);
+    }
+
+    msg.payload = msg.payload.toLowerCase();
+
+    this.on("input", function (msg) {
+        if(msg.payload === "enable" ||msg.payload === "enabled"){
+          if (!config.do_enable){
+            intervalHandle = setInterval(this.trigger, this.interval);
+          }
+          config.do_enable = true;
+        }
+        if(msg.payload === "disable" || msg.payload === "disabled"){
+            config.do_enable = false;
+            clearInterval(intervalHandle);
+        }
+    });
 
     this.on('close', function() {
         clearInterval(intervalHandle);
     });
   }
   RED.nodes.registerType("interval", interval);
-}
+};
