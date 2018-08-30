@@ -99,7 +99,32 @@
     <dt>payload
         <span class="property-type">string</span>
     </dt>
-    <dd> the command for the node. Currently supported values are "enabled" and "disabled".</dd>
+    <dd>the command for the node. Currently supported values are "enabled", "disabled" and "interval".</dd>
+
+    <dt>interval_value
+        <span class="property-type">number</span>
+    </dt>
+    <dd>interval to set. Use together with "interval" on <code>payload</code> and <code>interval_unit</code>.</dd>
+
+    <dt class="optional">interval_unit
+        <span class="property-type">string</span>
+    </dt>
+    <dd>unit for interval. Allowed values are <code>milliseconds</code>, <code>seconds</code>, <code>minutes</code>,
+    <code>hours</code> and <code>days</code>. Moment-js equivalents of those units are permitted. Use together with "interval" on <code>payload</code>. If omitted, the unit will stay unchanged.</dd>
+
+    <dt class="optional">interval_activeInstantly
+        <span class="property-type">boolean</span>
+    </dt>
+    <dd>if true, interval will immediately be reset to the new configured value and restart. If false, interval will
+     change after next invocation of the node.
+     Default is false. Use together with "interval" on <code>payload</code>. Has no effect if node is disabled.</dd>
+
+    <dt class="optional">interval_fireInstantly
+        <span class="property-type">boolean</span>
+    </dt>
+    <dd>only has an effect when used with "interval" on <code>payload</code>. If true, node triggers instantly when message
+    is received. This will happen even if node is disabled. If false, it doesn't. In any case,
+    further triggers will conform to the configured interval. Default is false.</dd></dd>
 </dl>
 
 <h3>Outputs</h3>
