@@ -103,5 +103,5 @@ module.exports = function(RED) {
         clearInterval(intervalHandle);
     });
   }
-  RED.nodes.registerType("interval", interval);
+  RED.nodes.registerType("configurable interval", interval);
 };

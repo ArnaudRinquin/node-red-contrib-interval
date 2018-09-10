@@ -5,25 +5,27 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "github.com/ArnaudRinquin/node-red-contrib-interval"
+    "url": "https://github.com/domenn/node-red-contrib-interval"
   },
   "keywords": [
     "node-red"
   ],
-  "author": "Arnaud Rinquin",
+  "author": {
+    "name": "Domen Mori",
+    "email": "domen.mory@gmail.com"
+  },
   "license": "MIT",
   "node-red": {
     "nodes": {
-      "interval": "interval/interval.js"
+      "configurable interval": "interval/interval.js"
     }
   },
   "dependencies": {
-    "moment": "^2.10.6"
+    "moment": "^2.22.2"
   },
   "contributors": [
     {
-      "name": "Domen Mori",
-      "email": "domen.mory@gmail.com"
+      "name": "Arnaud Rinquin"
     }
   ]
 }
