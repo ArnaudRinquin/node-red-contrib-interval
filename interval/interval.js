@@ -1,5 +1,11 @@
 var moment = require('moment');
 
+var allowedUnits = ["day", "days", "d",
+"hour", "hours", "h",
+"minute", "minutes", "m",
+"second", "seconds", "s",
+"millisecond", "milliseconds", "ms"];
+
 module.exports = function(RED) {
 
   function updateState(node, config) {
@@ -28,7 +34,7 @@ module.exports = function(RED) {
     var intervalHandle;
 
     RED.nodes.createNode(this, config);
-
+    var node = this;
     this.interval = moment.duration(parseInt(config.interval), config.unit).asMilliseconds();
 
     this.trigger = function trigger() {
@@ -38,6 +44,13 @@ module.exports = function(RED) {
       });
       updateState(this, config);
       this.last = Date.now();
+      if(this.interval_reset === true){
+          this.interval_reset = false;
+          if(config.do_enable === true) {
+              clearInterval(intervalHandle);
+              intervalHandle = setInterval(this.trigger, this.interval);
+          }
+      }
     }.bind(this);
 
 
@@ -46,11 +59,49 @@ module.exports = function(RED) {
       setTimeout(this.trigger, 1000);
     }
 
-    intervalHandle = setInterval(this.trigger, this.interval);
+    if(config.do_enable) {
+        intervalHandle = setInterval(this.trigger, this.interval);
+    }
+
+    this.on("input", function (msg) {
+        msg.payload = msg.payload.toLowerCase();
+        if(msg.payload === "enable" ||msg.payload === "enabled"){
+          if (!config.do_enable){
+            intervalHandle = setInterval(this.trigger, this.interval);
+          }
+          config.do_enable = true;
+        }
+        else if(msg.payload === "disable" || msg.payload === "disabled"){
+            config.do_enable = false;
+            clearInterval(intervalHandle);
+        }
+        else if(msg.payload === "interval"){
+          if (!isNaN(msg.interval_value)) {
+              config.interval = Number(msg.interval_value);
+          }else{
+            node.error("Parameter interval_value is mandatory together with \"interval\" payload.");
+            return;
+          }
+          if(msg.interval_unit && allowedUnits.includes(msg.interval_unit.toLowerCase())){
+            config.unit = msg.interval_unit.toLowerCase();
+          }
+          this.interval = moment.duration(config.interval, config.unit).asMilliseconds();
+          if(msg.interval_activeInstantly === true && config.do_enable === true){
+              clearInterval(intervalHandle);
+              intervalHandle = setInterval(this.trigger, this.interval);
+          }
+          else{
+            node.interval_reset = true;
+          }
+          if(msg.interval_fireInstantly === true){
+            this.trigger();
+          }
+        }
+    });
 
     this.on('close', function() {
         clearInterval(intervalHandle);
     });
   }
-  RED.nodes.registerType("interval", interval);
-}
+  RED.nodes.registerType("configurable interval", interval);
+};
